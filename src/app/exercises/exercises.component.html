@@ -1,0 +1,19 @@
+<input [(ngModel)]="filter" placeholder="Filter exercises">
+<button (click)="applyFilter()">Apply filter</button>
+
+<h1>Tous les exercices</h1>
+<div class="exercises" #exercisesList="cdkDropList" [cdkDropListConnectedTo]="[workoutList]" [cdkDropListData]="exercises" cdkDropList (cdkDropListDropped)="drop($event)">
+  <div class="exercise" *ngFor="let exercise of exercises" cdkDrag>
+    <h2>{{exercise.name}}</h2>
+    <p>{{exercise.description}}</p>
+  </div>
+</div>
+
+<div class="workout" #workoutList="cdkDropList" [cdkDropListConnectedTo]="[exercisesList]" cdkDropList [cdkDropListData]="futureWorkout" (cdkDropListDropped)="drop($event)">
+  <div class="exercise" *ngFor="let exercise of futureWorkout" cdkDrag>
+    <h2>{{exercise.name}}</h2>
+    <p>{{exercise.description}}</p>
+  </div>
+</div>
+
+

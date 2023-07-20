@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthComponent } from './components/auth/auth.component';
-import { ExercisesComponent } from './components/exercises/exercises.component';
-import { WorkoutsComponent } from './components/workouts/workouts.component';
-import { ProgressComponent } from './components/progress/progress.component';
+import { AuthComponent } from './auth/auth.component';
+import { ExercisesComponent } from './exercises/exercises.component';
+import { WorkoutsComponent } from './workouts/workouts.component';
+import { ProgressComponent } from './progress/progress.component';
 
 const routes: Routes = [
   { path: 'auth', component: AuthComponent },
