@@ -3,8 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-progress',
   templateUrl: './progress.component.html',
-  styleUrls: ['./progress.component.css']
+  styleUrls: ['./progress.component.css'],
 })
-export class ProgressComponent {
-
-}
+export class ProgressComponent {}
