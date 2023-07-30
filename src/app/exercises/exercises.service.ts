@@ -10,7 +10,7 @@ export class ExercisesService {
 
   constructor(private http: HttpClient) {}
 
-  getExercises(
+  public getExercises(
     muscleGroup?: string,
     intensity?: string,
     difficulty?: string,
@@ -31,4 +31,14 @@ export class ExercisesService {
     const url = `${this.API_URL}/${id}`;
     return this.http.delete(url);
   }
+  createWorkout(futureWorkout: Exercise[], duration: number, difficulty: string): Observable<any> {
+    const selectedExercises = futureWorkout.map(exercise => exercise.id);
+    const workout = {
+      exercisesId: selectedExercises,
+      duration: duration,
+      difficulty: difficulty
+    };
+    return this.http.post('http://localhost:3000/workouts', workout);
+  }
+
 }

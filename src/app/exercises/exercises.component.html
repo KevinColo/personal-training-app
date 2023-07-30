@@ -1,19 +1,75 @@
-<input [(ngModel)]="filter" placeholder="Filter exercises">
-<button (click)="applyFilter()">Apply filter</button>
-
-<h1>Tous les exercices</h1>
-<div class="exercises" #exercisesList="cdkDropList" [cdkDropListConnectedTo]="[workoutList]" [cdkDropListData]="exercises" cdkDropList (cdkDropListDropped)="drop($event)">
-  <div class="exercise" *ngFor="let exercise of exercises" cdkDrag>
-    <h2>{{exercise.name}}</h2>
-    <p>{{exercise.description}}</p>
+<form class="mb-3">
+  <div class="form-group">
+    <input
+      class="form-control w-25"
+      name="filter"
+      [(ngModel)]="filter"
+      (input)="applyFilter()"
+      placeholder="Filter exercises"
+    />
   </div>
+</form>
+
+<div class="form-group">
+  <label for="duration">Duration: {{ duration | secondsToTime }}</label>
+  <input
+    type="range"
+    class="custom-range"
+    id="duration"
+    name="duration"
+    [(ngModel)]="duration"
+    min="480"
+    max="3600"
+    step="60"
+    (ngModelChange)="onDurationChange($event)"
+  />
 </div>
 
-<div class="workout" #workoutList="cdkDropList" [cdkDropListConnectedTo]="[exercisesList]" cdkDropList [cdkDropListData]="futureWorkout" (cdkDropListDropped)="drop($event)">
+<div class="form-group">
+  <label for="difficultyLevel">Difficulty: {{ difficulty }}</label>
+  <input
+    type="range"
+    class="custom-range"
+    id="difficultyLevel"
+    name="difficultyLevel"
+    [(ngModel)]="difficultyLevel"
+    min="1"
+    max="3"
+    step="1"
+    (ngModelChange)="onDifficultyChange($event)"
+  />
+</div>
+
+<h2 class="mt-3">Mon workout</h2>
+<div
+  class="workout p-3 mb-3 border rounded"
+  #workoutList="cdkDropList"
+  [cdkDropListConnectedTo]="[exercisesList]"
+  cdkDropList
+  [cdkDropListData]="futureWorkout"
+  (cdkDropListDropped)="drop($event)"
+>
   <div class="exercise" *ngFor="let exercise of futureWorkout" cdkDrag>
-    <h2>{{exercise.name}}</h2>
-    <p>{{exercise.description}}</p>
+    <h3>{{ exercise.name }}</h3>
+    <p>{{ exercise.description }}</p>
   </div>
 </div>
 
+<button class="btn btn-primary mb-3" (click)="createWorkout()">Create Workout</button>
 
+<h2 class="mt-3">Tous les exercices</h2>
+<div
+  class="exercises p-3 mb-3 border rounded"
+  #exercisesList="cdkDropList"
+  [cdkDropListConnectedTo]="[workoutList]"
+  cdkDropList
+  [cdkDropListData]="exercises"
+  (cdkDropListDropped)="drop($event)"
+>
+  <div class="exercise" *ngFor="let exercise of exercises" cdkDrag>
+    <h3>{{ exercise.name }}</h3>
+    <p>{{ exercise.description }}</p>
+    <p>{{ exercise.difficulty }}</p>
+    <p>{{ exercise.intensity }}</p>
+  </div>
+</div>

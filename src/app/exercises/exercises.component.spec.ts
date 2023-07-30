@@ -15,7 +15,10 @@ describe('ExercisesComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ExercisesComponent],
       providers: [
-        { provide: ExercisesService, useValue: { getExercises: () => of([]) } },
+        {
+          provide: ExercisesService,
+          useValue: { getExercises: () => of([]), createWorkout: () => of([]) },
+        },
       ],
       imports: [FormsModule, DragDropModule],
     }).compileComponents();
@@ -40,5 +43,15 @@ describe('ExercisesComponent', () => {
     jest.spyOn(exercisesService, 'getExercises');
     component.ngOnInit();
     expect(exercisesService.getExercises).toHaveBeenCalled();
+  });
+
+  it('should create a workout when button is clicked', () => {
+    const exercisesService = TestBed.inject(ExercisesService);
+    const createWorkoutSpy = jest.spyOn(exercisesService, 'createWorkout');
+
+    const button = fixture.debugElement.nativeElement.querySelector('.btn-workout');
+    button.click();
+
+    expect(createWorkoutSpy).toHaveBeenCalledWith(component.futureWorkout);
   });
 });

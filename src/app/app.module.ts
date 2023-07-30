@@ -1,25 +1,32 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { WorkoutsComponent } from './workouts/workouts.component';
 import { ProgressComponent } from './progress/progress.component';
-import {RouterLink, RouterModule, RouterOutlet, Routes} from "@angular/router";
-import {ExercisesService} from "./exercises/exercises.service";
-import {HttpClientModule} from "@angular/common/http";
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import {FormsModule} from "@angular/forms";
+import {
+  RouterLink,
+  RouterModule,
+  RouterOutlet,
+  Routes,
+} from '@angular/router';
+import { ExercisesService } from './exercises/exercises.service';
+import {SecondsToTimePipe} from "./pipes/SecondsToTimePipe";
+import { WorkoutDetailsComponent } from './workouts/workout-details/workout-details.component';
 
 const routes: Routes = [
   { path: '', component: AppComponent },
   { path: 'exercises', component: ExercisesComponent },
   { path: 'auth', component: AuthComponent },
   { path: 'workout-builder', component: WorkoutsComponent },
+  { path: 'workouts/:id', component: WorkoutDetailsComponent },
   { path: 'workouts', component: WorkoutsComponent },
   { path: 'progress', component: ProgressComponent },
-  //{ path: 'workouts/:id', component: WorkoutDetailsComponent },
 ];
 
 @NgModule({
@@ -28,7 +35,9 @@ const routes: Routes = [
     AuthComponent,
     ExercisesComponent,
     WorkoutsComponent,
-    ProgressComponent
+    ProgressComponent,
+    SecondsToTimePipe,
+    WorkoutDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,9 +46,9 @@ const routes: Routes = [
     RouterOutlet,
     RouterLink,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [ExercisesService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

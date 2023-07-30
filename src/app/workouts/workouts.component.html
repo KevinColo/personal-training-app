@@ -1,1 +1,6 @@
 <p>workouts works!</p>
+
+<div class="exercise" *ngFor="let workout of workouts" cdkDrag>
+<h2>{{workout.name}}</h2>
+<p>{{workout.description}}</p>
+</div>
