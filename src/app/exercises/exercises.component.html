@@ -13,8 +13,8 @@
     </div>
   </div>
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Muscle Group</label>
-    <div class="col-sm-10">
+    <div class="form-group col-md-6">
+      <label>Muscle Group</label>
       <div class="form-check" *ngFor="let group of muscleGroupsEnum | keyvalue">
         <input
           class="form-check-input"
@@ -26,6 +26,22 @@
         />
         <label class="form-check-label" for="{{ group.value }}">
           {{ group.value }}
+        </label>
+      </div>
+    </div>
+    <div class="form-group col-md-6">
+      <label>Difficulté</label>
+      <div class="form-check" *ngFor="let difficulty of exerciseDifficulty | keyvalue">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="{{ difficulty.key }}"
+          [(ngModel)]="selectedDifficulty[difficulty.key]"
+          name="{{ difficulty.key }}"
+          (change)="applyFilter()"
+        />
+        <label class="form-check-label" for="{{ difficulty.key }}">
+          {{ difficulty.value }}
         </label>
       </div>
     </div>

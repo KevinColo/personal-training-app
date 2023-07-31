@@ -9,6 +9,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { MuscleGroupsEnum } from './muscle-groups.enum';
+import {ExerciseDifficultyEnum} from "./exercise-difficulty.enum";
 
 @Component({
   selector: 'app-exercises',
@@ -25,6 +26,8 @@ export class ExercisesComponent implements OnInit {
   difficulty = 'Easy';
   muscleGroupsEnum = MuscleGroupsEnum;
   selectedMuscleGroups: { [key: string]: boolean } = {};
+  exerciseDifficulty = ExerciseDifficultyEnum
+  selectedDifficulty: { [key: string]: boolean } = {};
 
   constructor(
     private exercisesService: ExercisesService,
@@ -56,8 +59,17 @@ export class ExercisesComponent implements OnInit {
       });
     }
 
+    // Filtrer par difficulté si une difficulté est sélectionnée
+    const selectedDifficulties = Object.keys(this.selectedDifficulty).filter(key => this.selectedDifficulty[key]);
+    if (selectedDifficulties.length > 0) {
+      filteredExercises = filteredExercises.filter((exercise) => {
+        return selectedDifficulties.includes(exercise.difficulty);
+      });
+    }
+
     this.exercises = filteredExercises;
   }
+
 
 
   drop(event: CdkDragDrop<Exercise[]>) {
