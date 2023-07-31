@@ -16,11 +16,12 @@ import {
   Routes,
 } from '@angular/router';
 import { ExercisesService } from './exercises/exercises.service';
-import {SecondsToTimePipe} from "./pipes/SecondsToTimePipe";
+import { SecondsToTimePipe } from './pipes/SecondsToTimePipe';
 import { WorkoutDetailsComponent } from './workouts/workout-details/workout-details.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path: '', component: AppComponent },
+  { path: '', component: HomeComponent },
   { path: 'exercises', component: ExercisesComponent },
   { path: 'auth', component: AuthComponent },
   { path: 'workout-builder', component: WorkoutsComponent },
@@ -38,6 +39,7 @@ const routes: Routes = [
     ProgressComponent,
     SecondsToTimePipe,
     WorkoutDetailsComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

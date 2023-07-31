@@ -8,6 +8,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { MuscleGroupsEnum } from './muscle-groups.enum';
 
 @Component({
   selector: 'app-exercises',
@@ -21,10 +22,14 @@ export class ExercisesComponent implements OnInit {
   futureWorkout: Exercise[] = [];
   duration: number = 480;
   difficultyLevel = 1; // 1 = Easy, 2 = Medium, 3 = High
-  difficulty = 'Easy' // Ajoutez cette ligne
+  difficulty = 'Easy';
+  muscleGroupsEnum = MuscleGroupsEnum;
+  selectedMuscleGroups: { [key: string]: boolean } = {};
 
-
-  constructor(private exercisesService: ExercisesService, private router: Router) {}
+  constructor(
+    private exercisesService: ExercisesService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.exercisesService.getExercises().subscribe((data) => {
@@ -34,14 +39,24 @@ export class ExercisesComponent implements OnInit {
   }
 
   applyFilter() {
+    let filteredExercises = this.allExercises;
+
+    // Filtrer par nom si un filtre de nom est défini
     if (this.filter) {
-      this.exercises = this.allExercises.filter((exercise) => {
-          return exercise.name.toLowerCase().includes(this.filter.toLowerCase());
-        }
-      );
-    } else {
-      this.exercises = this.allExercises;
+      filteredExercises = filteredExercises.filter((exercise) => {
+        return exercise.name.toLowerCase().includes(this.filter.toLowerCase());
+      });
     }
+
+    // Filtrer par groupe musculaire si un groupe musculaire est sélectionné
+    const selectedGroups = Object.keys(this.selectedMuscleGroups).filter(key => this.selectedMuscleGroups[key]);
+    if (selectedGroups.length > 0) {
+      filteredExercises = filteredExercises.filter((exercise) => {
+        return selectedGroups.includes(exercise.muscleGroup);
+      });
+    }
+
+    this.exercises = filteredExercises;
   }
 
 
@@ -98,7 +113,6 @@ export class ExercisesComponent implements OnInit {
         console.log(response);
         this.router.navigate(['/workouts', response.id]);
       });
-
   }
 
   onDurationChange(event: any) {
@@ -110,4 +124,6 @@ export class ExercisesComponent implements OnInit {
     this.difficultyLevel = event;
     this.difficulty = this.getDifficulty(this.difficultyLevel);
   }
+
+  protected readonly MuscleGroupsEnum = MuscleGroupsEnum;
 }

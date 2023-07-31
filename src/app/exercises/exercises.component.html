@@ -1,46 +1,38 @@
-<form class="mb-3">
-  <div class="form-group">
-    <input
-      class="form-control w-25"
-      name="filter"
-      [(ngModel)]="filter"
-      (input)="applyFilter()"
-      placeholder="Filter exercises"
-    />
+<form class="mb-3 mt-2">
+  <div class="form-group row">
+    <label for="filter" class="col-sm-2 col-form-label">Filter</label>
+    <div class="col-sm-6">
+      <input
+        class="form-control"
+        id="filter"
+        name="filter"
+        [(ngModel)]="filter"
+        (input)="applyFilter()"
+        placeholder="Filter exercises"
+      />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Muscle Group</label>
+    <div class="col-sm-10">
+      <div class="form-check" *ngFor="let group of muscleGroupsEnum | keyvalue">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="{{ group.value }}"
+          [(ngModel)]="selectedMuscleGroups[group.value]"
+          name="{{ group.value }}"
+          (change)="applyFilter()"
+        />
+        <label class="form-check-label" for="{{ group.value }}">
+          {{ group.value }}
+        </label>
+      </div>
+    </div>
   </div>
 </form>
 
-<div class="form-group">
-  <label for="duration">Duration: {{ duration | secondsToTime }}</label>
-  <input
-    type="range"
-    class="custom-range"
-    id="duration"
-    name="duration"
-    [(ngModel)]="duration"
-    min="480"
-    max="3600"
-    step="60"
-    (ngModelChange)="onDurationChange($event)"
-  />
-</div>
-
-<div class="form-group">
-  <label for="difficultyLevel">Difficulty: {{ difficulty }}</label>
-  <input
-    type="range"
-    class="custom-range"
-    id="difficultyLevel"
-    name="difficultyLevel"
-    [(ngModel)]="difficultyLevel"
-    min="1"
-    max="3"
-    step="1"
-    (ngModelChange)="onDifficultyChange($event)"
-  />
-</div>
-
-<h2 class="mt-3">Mon workout</h2>
+<h2 class="mt-3">Mon entrainement</h2>
 <div
   class="workout p-3 mb-3 border rounded"
   #workoutList="cdkDropList"
@@ -54,8 +46,47 @@
     <p>{{ exercise.description }}</p>
   </div>
 </div>
-
-<button class="btn btn-primary mb-3" (click)="createWorkout()">Create Workout</button>
+<form class="mb-3">
+  <div class="form-group row">
+    <label for="duration" class="col-sm-3 col-form-label"
+      >Durée de l'entrainement: {{ duration | secondsToTime }}</label
+    >
+    <div class="col-sm-9">
+      <input
+        type="range"
+        class="custom-range"
+        id="duration"
+        name="duration"
+        [(ngModel)]="duration"
+        min="480"
+        max="3600"
+        step="60"
+        (ngModelChange)="onDurationChange($event)"
+      />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="difficultyLevel" class="col-sm-3 col-form-label"
+      >Difficulté: {{ difficulty }}</label
+    >
+    <div class="col-sm-9">
+      <input
+        type="range"
+        class="custom-range"
+        id="difficultyLevel"
+        name="difficultyLevel"
+        [(ngModel)]="difficultyLevel"
+        min="1"
+        max="3"
+        step="1"
+        (ngModelChange)="onDifficultyChange($event)"
+      />
+    </div>
+  </div>
+</form>
+<button class="btn btn-primary mb-3" (click)="createWorkout()">
+  Create Workout
+</button>
 
 <h2 class="mt-3">Tous les exercices</h2>
 <div
