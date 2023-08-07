@@ -19,9 +19,11 @@ import { ExercisesService } from './exercises/exercises.service';
 import { SecondsToTimePipe } from './pipes/SecondsToTimePipe';
 import { WorkoutDetailsComponent } from './workouts/workout-details/workout-details.component';
 import { HomeComponent } from './home/home.component';
+import { WorkoutsService } from './workouts/workouts.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'exercises/:id', component: ExercisesComponent },
   { path: 'exercises', component: ExercisesComponent },
   { path: 'auth', component: AuthComponent },
   { path: 'workout-builder', component: WorkoutsComponent },
@@ -50,7 +52,7 @@ const routes: Routes = [
     HttpClientModule,
     FormsModule,
   ],
-  providers: [ExercisesService],
+  providers: [ExercisesService, WorkoutsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

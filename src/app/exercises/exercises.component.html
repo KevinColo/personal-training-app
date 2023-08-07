@@ -1,53 +1,3 @@
-<form class="mb-3 mt-2">
-  <div class="form-group row">
-    <label for="filter" class="col-sm-2 col-form-label">Filter</label>
-    <div class="col-sm-6">
-      <input
-        class="form-control"
-        id="filter"
-        name="filter"
-        [(ngModel)]="filter"
-        (input)="applyFilter()"
-        placeholder="Filter exercises"
-      />
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="form-group col-md-6">
-      <label>Muscle Group</label>
-      <div class="form-check" *ngFor="let group of muscleGroupsEnum | keyvalue">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          id="{{ group.value }}"
-          [(ngModel)]="selectedMuscleGroups[group.value]"
-          name="{{ group.value }}"
-          (change)="applyFilter()"
-        />
-        <label class="form-check-label" for="{{ group.value }}">
-          {{ group.value }}
-        </label>
-      </div>
-    </div>
-    <div class="form-group col-md-6">
-      <label>Difficulté</label>
-      <div class="form-check" *ngFor="let difficulty of exerciseDifficulty | keyvalue">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          id="{{ difficulty.key }}"
-          [(ngModel)]="selectedDifficulty[difficulty.key]"
-          name="{{ difficulty.key }}"
-          (change)="applyFilter()"
-        />
-        <label class="form-check-label" for="{{ difficulty.key }}">
-          {{ difficulty.value }}
-        </label>
-      </div>
-    </div>
-  </div>
-</form>
-
 <h2 class="mt-3">Mon entrainement</h2>
 <div
   class="workout p-3 mb-3 border rounded"
@@ -58,8 +8,13 @@
   (cdkDropListDropped)="drop($event)"
 >
   <div class="exercise" *ngFor="let exercise of futureWorkout" cdkDrag>
-    <h3>{{ exercise.name }}</h3>
-    <p>{{ exercise.description }}</p>
+    <div class="exercise-content">
+      <h3>{{ exercise.name }}</h3>
+      <p>{{ exercise.description }}</p>
+    </div>
+    <div class="exercise-preview" *cdkDragPreview>
+      <img [src]="exercise.imgUrl" alt="Exercise Image" />
+    </div>
   </div>
 </div>
 <form class="mb-3">
@@ -105,6 +60,57 @@
 </button>
 
 <h2 class="mt-3">Tous les exercices</h2>
+<form class="mb-3 mt-2">
+  <div class="form-group row">
+    <label for="filter" class="col-sm-2 col-form-label">Filter</label>
+    <div class="col-sm-6">
+      <input
+        class="form-control"
+        id="filter"
+        name="filter"
+        [(ngModel)]="filter"
+        (input)="applyFilter()"
+        placeholder="Filter exercises"
+      />
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="form-group col-md-6">
+      <div class="form-check" *ngFor="let group of muscleGroupsEnum | keyvalue">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="{{ group.value }}"
+          [(ngModel)]="selectedMuscleGroups[group.value]"
+          name="{{ group.value }}"
+          (change)="applyFilter()"
+        />
+        <label class="form-check-label" for="{{ group.value }}">
+          {{ group.value }}
+        </label>
+      </div>
+    </div>
+    <div class="form-group col-md-6">
+      <div
+        class="form-check"
+        *ngFor="let difficulty of exerciseDifficulty | keyvalue"
+      >
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="{{ difficulty.key }}"
+          [(ngModel)]="selectedDifficulty[difficulty.key]"
+          name="{{ difficulty.key }}"
+          (change)="applyFilter()"
+        />
+        <label class="form-check-label" for="{{ difficulty.key }}">
+          {{ difficulty.value }}
+        </label>
+      </div>
+    </div>
+  </div>
+</form>
+
 <div
   class="exercises p-3 mb-3 border rounded"
   #exercisesList="cdkDropList"
@@ -112,11 +118,18 @@
   cdkDropList
   [cdkDropListData]="exercises"
   (cdkDropListDropped)="drop($event)"
+  [cdkDropListSortingDisabled]="true"
 >
   <div class="exercise" *ngFor="let exercise of exercises" cdkDrag>
-    <h3>{{ exercise.name }}</h3>
-    <p>{{ exercise.description }}</p>
-    <p>{{ exercise.difficulty }}</p>
-    <p>{{ exercise.intensity }}</p>
+    <div class="exercise-content">
+      <h3>{{ exercise.name }}</h3>
+      <p>{{ exercise.description }}</p>
+      <p>{{ exercise.difficulty }}</p>
+      <p>{{ exercise.intensity }}</p>
+    </div>
+    <div class="exercise-preview" *cdkDragPreview>
+      <span>{{exercise.name}}</span>
+      <img [src]="exercise.imgUrl" alt="Exercise Image" />
+    </div>
   </div>
 </div>

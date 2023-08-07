@@ -1,10 +1,11 @@
+import {WorkoutTemplate} from "./workout-template.model";
 
 export class Workout {
    public id: number;
    public name: string;
    public description: string;
-   public duration: string;
-   public numRounds: number;
-   public worktime: number;
+   public duration: number;
+   public exercisesId: (number[] | number)[];
+   public workoutTemplate: WorkoutTemplate;
    public intensity: string;
 }

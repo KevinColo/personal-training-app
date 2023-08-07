@@ -1,4 +1,28 @@
-<p>workout-details works!</p>
-<h1>{{ workout.name }}</h1>
-<p>Duration: {{ workout.duration }}</p>
-<!-- Ajoutez plus de détails ici selon vos besoins -->
+<ng-container *ngIf="!isLoading">
+  <div class="workout-container">
+    <div class="progress-bar">
+      <div class="timer timer-left">{{ globalTimer }}</div>
+      <div class="progress">
+        <div *ngFor="let item of workoutProgress" class="progress-item" [class.active]="item.active"></div>
+      </div>
+      <div class="timer timer-right">{{ exerciseTimer }}</div>
+    </div>
+    <div class="gif-container">
+      <img [src]="'assets/' + exercises[currentExerciseIndex].videoUrl" alt="Exercise GIF" />
+      <div *ngIf="isResting" class="rest-indicator">Resting: {{ restTime }}</div>
+      <div class="overlay" *ngIf="showPlayButton">
+        <button class="play-button" (click)="startWorkout()">&#9658;</button>
+      </div>
+    </div>
+  </div>
+  <div class="exercise-info">
+    <h3>{{ exercises[currentExerciseIndex].name }}</h3>
+    <p>{{ exercises[currentExerciseIndex].description }}</p>
+    <p>{{ exercises[currentExerciseIndex].difficulty }}</p>
+    <p>{{ exercises[currentExerciseIndex].intensity }}</p>
+  </div>
+</ng-container>
+
+<div *ngIf="isLoading" class="spinner-grow text-secondary" role="status">
+  <span class="sr-only">Loading...</span>
+</div>

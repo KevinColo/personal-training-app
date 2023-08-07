@@ -6,4 +6,6 @@ export class Exercise {
    public muscleGroup: string;
    public intensity: string;
    public difficulty: string;
+   public imgUrl: string;
+   public videoUrl: string;
 }

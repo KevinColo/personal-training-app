@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { ExercisesService } from './exercises.service';
-import { Exercise } from './exercise.model';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+
+import { ExercisesService } from './exercises.service';
+import { Exercise } from './exercise.model';
 import { MuscleGroupsEnum } from './muscle-groups.enum';
-import {ExerciseDifficultyEnum} from "./exercise-difficulty.enum";
+import { ExerciseDifficultyEnum } from './exercise-difficulty.enum';
 
 @Component({
   selector: 'app-exercises',
@@ -26,7 +26,7 @@ export class ExercisesComponent implements OnInit {
   difficulty = 'Easy';
   muscleGroupsEnum = MuscleGroupsEnum;
   selectedMuscleGroups: { [key: string]: boolean } = {};
-  exerciseDifficulty = ExerciseDifficultyEnum
+  exerciseDifficulty = ExerciseDifficultyEnum;
   selectedDifficulty: { [key: string]: boolean } = {};
 
   constructor(
@@ -52,7 +52,9 @@ export class ExercisesComponent implements OnInit {
     }
 
     // Filtrer par groupe musculaire si un groupe musculaire est sélectionné
-    const selectedGroups = Object.keys(this.selectedMuscleGroups).filter(key => this.selectedMuscleGroups[key]);
+    const selectedGroups = Object.keys(this.selectedMuscleGroups).filter(
+      (key) => this.selectedMuscleGroups[key],
+    );
     if (selectedGroups.length > 0) {
       filteredExercises = filteredExercises.filter((exercise) => {
         return selectedGroups.includes(exercise.muscleGroup);
@@ -60,7 +62,9 @@ export class ExercisesComponent implements OnInit {
     }
 
     // Filtrer par difficulté si une difficulté est sélectionnée
-    const selectedDifficulties = Object.keys(this.selectedDifficulty).filter(key => this.selectedDifficulty[key]);
+    const selectedDifficulties = Object.keys(this.selectedDifficulty).filter(
+      (key) => this.selectedDifficulty[key],
+    );
     if (selectedDifficulties.length > 0) {
       filteredExercises = filteredExercises.filter((exercise) => {
         return selectedDifficulties.includes(exercise.difficulty);
@@ -69,8 +73,6 @@ export class ExercisesComponent implements OnInit {
 
     this.exercises = filteredExercises;
   }
-
-
 
   drop(event: CdkDragDrop<Exercise[]>) {
     if (event.previousContainer === event.container) {
@@ -136,6 +138,4 @@ export class ExercisesComponent implements OnInit {
     this.difficultyLevel = event;
     this.difficulty = this.getDifficulty(this.difficultyLevel);
   }
-
-  protected readonly MuscleGroupsEnum = MuscleGroupsEnum;
 }
