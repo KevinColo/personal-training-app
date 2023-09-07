@@ -5,7 +5,7 @@ export class Workout {
    public name: string;
    public description: string;
    public duration: number;
-   public exercisesId: (number[] | number)[];
+   public exercisesId: number[][];
    public workoutTemplate: WorkoutTemplate;
    public intensity: string;
 }

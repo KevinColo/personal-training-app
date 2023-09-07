@@ -12,9 +12,6 @@ describe('AppComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             params: from([{ id: 1 }]),
-            snapshot: {
-              params: { cid: '9012345678' },
-            },
           },
         },
       ],

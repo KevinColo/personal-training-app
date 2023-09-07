@@ -3,6 +3,13 @@
   max-width: 800px; /* Adjust as needed */
 }
 
+.progress-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
 .gif-container {
   position: relative;
 }
@@ -16,13 +23,14 @@ img {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.5);
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
+
 
 .play-button {
   font-size: 50px;
@@ -38,28 +46,9 @@ img {
 
 .timer-left,
 .timer-right {
-  position: relative;
-  width: 80px; /* Diamètre du cercle */
-  height: 80px;
-}
-
-.timer-left,
-.timer-right {
-  position: absolute;
   font-size: 18px;
   background-color: rgba(255, 255, 255, 0.5);
-  padding: 5px;
   z-index: 10;
-}
-
-.timer-left {
-  top: 10px;
-  left: 10px;
-}
-
-.timer-right {
-  top: 10px;
-  right: 10px;
 }
 
 .timer-circle {
@@ -82,66 +71,34 @@ img {
 }
 
 .progress {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
+  flex: 1;
+  height: 10px;
+  background-color: #ddd;
   display: flex;
-  z-index: 1;
-}
-
-.progress-item {
-  flex-grow: 1;
-  height: 5px;
-  background-color: grey;
-}
-
-.progress-item.active {
-  background-color: green;
-}
-
-.rest-indicator {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background-color: rgba(255, 255, 255, 0.5);
-  padding: 5px;
-  font-size: 16px;
-}
-
-.progress-item {
-  flex-grow: 1;
-  margin: 2px;
-  /* Assurez-vous que les éléments se répartissent uniformément sur la ligne */
-  /* ... autres styles ... */
+  overflow: hidden;
+  margin: 0 1rem;
 }
 
 .progress-item.exercise {
-  background-color: blue; /* Par exemple, vous pouvez utiliser différentes couleurs pour les exercices et les pauses */
+  background-color: gray;  /* Couleur par défaut pour un exercice non commencé */
+}
+
+.progress-item.active {
+  background-color: red;   /* Couleur pour un exercice en cours */
+}
+
+.progress-item.completed {
+  background-color: green; /* Couleur pour un exercice terminé */
 }
 
 .progress-item.rest {
-  background-color: gray;
-}
-
-.workout-container {
-  position: relative;
+  background-color: lightgray; /* Couleur pour le temps de repos */
 }
 
 .gif-container img {
   width: 100%;
   display: block;
 }
-
-.progress-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%; /* Largeur totale de la barre de progression */
-  height: 10px; /* Hauteur de la barre de progression */
-  overflow: hidden;
-}
-
 .timer {
   width: 50px;
   height: 50px;
@@ -153,53 +110,6 @@ img {
   color: #fff;
 }
 
-.timer-left {
-  position: absolute;
-  top: 20px;
-  left: 10px;
-}
-
-.timer-right {
-  position: absolute;
-  top: 20px;
-  right: 10px;
-}
-
-.progress {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  width: 80%;
-  height: 10px;
-  background-color: #f0f0f0;
-  overflow: hidden;
-  position: absolute;
-  top: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.progress-item {
-  flex-grow: 1;
-  height: 100%;
-  background-color: #ccc;
-}
-
-.progress-item.active {
-  background-color: #007bff;
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .play-button {
   font-size: 48px;
@@ -207,4 +117,14 @@ img {
   border: none;
   color: #fff;
   cursor: pointer;
+}
+
+.rest-indicator {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
 }

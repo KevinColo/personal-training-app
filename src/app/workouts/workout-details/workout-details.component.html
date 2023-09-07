@@ -1,19 +1,25 @@
 <ng-container *ngIf="!isLoading">
-  <div class="workout-container">
-    <div class="progress-bar">
-      <div class="timer timer-left">{{ globalTimer }}</div>
+  <div class="workout-container mt-3">
+    <div class="progress-container">
+      <div class="timer timer-left">{{ globalTimerInMinutes }}</div>
       <div class="progress">
-        <div *ngFor="let item of workoutProgress" class="progress-item" [class.active]="item.active"></div>
+        <div *ngFor="let item of progressBar"
+             [class.active]="item.isActive"
+             [class.completed]="item.isCompleted"
+             [class.rest]="item.isRest"
+             [style.width]="100 / progressBar.length + '%'"
+             class="progress-item">
+        </div>
       </div>
       <div class="timer timer-right">{{ exerciseTimer }}</div>
     </div>
     <div class="gif-container">
-      <img [src]="'assets/' + exercises[currentExerciseIndex].videoUrl" alt="Exercise GIF" />
-      <div *ngIf="isResting" class="rest-indicator">Resting: {{ restTime }}</div>
+      <img [src]="isResting ? 'assets/repos.gif' : 'assets/' + video" alt="Exercise GIF" />
       <div class="overlay" *ngIf="showPlayButton">
         <button class="play-button" (click)="startWorkout()">&#9658;</button>
       </div>
     </div>
+    <div class="round-counter">Round {{ currentRound }}/{{ workout.workoutTemplate.numRounds }}</div>
   </div>
   <div class="exercise-info">
     <h3>{{ exercises[currentExerciseIndex].name }}</h3>

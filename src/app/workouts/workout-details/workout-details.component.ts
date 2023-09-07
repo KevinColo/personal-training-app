@@ -1,34 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { interval, Subscription } from 'rxjs';
 import { WorkoutsService } from '../workouts.service';
 import { Workout } from '../workout.model';
 import { ExercisesService } from '../../exercises/exercises.service';
 import { Exercise } from '../../exercises/exercise.model';
 import { WorkoutTemplate } from '../workout-template.model';
-import { interval, Subscription, takeWhile } from 'rxjs';
+import { ProgressItem } from './progress-item';
 
 @Component({
   selector: 'app-workout-details',
   templateUrl: './workout-details.component.html',
   styleUrls: ['./workout-details.component.css'],
 })
-export class WorkoutDetailsComponent implements OnInit {
+export class WorkoutDetailsComponent implements OnInit, OnDestroy {
   public workout: Workout;
   public exercises: Exercise[];
   public isLoading = true;
   public workoutTemplate: WorkoutTemplate;
   currentExerciseIndex = 0;
-  isResting = false;
   globalTimer = 0;
   exerciseTimer = 0;
   restTime = 0;
   showPlayButton = true;
   isRunning = false;
-  timerSubscription?: Subscription;
-  workoutProgress: any[] = [];
-
-  leftTimerOffset: number = 157; // Pour animer le cercle gauche
-  rightTimerOffset: number = 157; // Pour animer le cercle droit
+  exerciseTimerSubscription: Subscription;
+  restTimerSubscription: Subscription;
+  currentRound = 1;
+  progressBar: ProgressItem[] = [];
+  isResting = false;
+  video = 'ready.gif';
 
   constructor(
     private route: ActivatedRoute,
@@ -37,10 +38,9 @@ export class WorkoutDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.params['id'];
     if (id) {
       this.workoutsService.getWorkout(id).subscribe((workout: Workout) => {
-        console.log(workout);
         this.exercisesService
           .getSomeExercises(workout.exercisesId)
           .subscribe((exercises) => {
@@ -49,7 +49,7 @@ export class WorkoutDetailsComponent implements OnInit {
             this.exerciseTimer = workout.workoutTemplate.workTime;
             this.workoutTemplate = workout.workoutTemplate;
             this.exercises = exercises;
-            this.createWorkoutProgressArray();
+            this.buildCurrentRoundProgressBar();
             this.isLoading = false;
           });
       });
@@ -60,97 +60,120 @@ export class WorkoutDetailsComponent implements OnInit {
   startWorkout() {
     this.showPlayButton = false;
     this.isRunning = true;
-    this.startExerciseTimer(
-      this.workoutProgress[this.currentExerciseIndex].duration,
-    );
+    this.startExerciseTimer();
     this.startGlobalTimer();
   }
 
-  createWorkoutProgressArray() {
-    const workoutTemplate = this.workout.workoutTemplate;
-    for (let i = 0; i < workoutTemplate.numRounds; i++) {
-      for (let j = 0; j < workoutTemplate.numExercisesRound; j++) {
-        // Ajoutez chaque exercice
-        this.workoutProgress.push({
-          type: 'exercise',
-          duration: workoutTemplate.workTime,
-        });
-        // Ajoutez du temps de repos après chaque exercice, sauf le dernier
-        if (j < workoutTemplate.numExercisesRound - 1) {
-          this.workoutProgress.push({
-            type: 'rest',
-            duration: workoutTemplate.restTime,
-          });
-        }
-      }
-      // Ajoutez du repos entre les tours, sauf après le dernier tour
-      if (i < workoutTemplate.numRounds - 1) {
-        this.workoutProgress.push({
-          type: 'restBetweenRounds',
-          duration: workoutTemplate.restBetweenRounds,
+  buildCurrentRoundProgressBar() {
+    this.progressBar = [];
+    const numExercises = this.workout.workoutTemplate.numExercisesRound;
+    const hasRestBetweenExercises = this.workout.workoutTemplate.restTime > 0;
+
+    for (let i = 0; i < numExercises; i++) {
+      this.progressBar.push({
+        duration: this.workout.workoutTemplate.workTime,
+        isActive: false,
+        isCompleted: false,
+        isRest: false,
+        videoId: this.workout.exercisesId[this.currentRound - 1][i],
+      });
+
+      if (hasRestBetweenExercises && i < numExercises - 1) {
+        this.progressBar.push({
+          duration: this.workout.workoutTemplate.restTime,
+          isActive: false,
+          isCompleted: false,
+          isRest: true,
         });
       }
     }
   }
 
-  startExerciseTimer(duration: number) {
-    this.exerciseTimer = duration;
-    this.timerSubscription = interval(1000)
-      .pipe(takeWhile(() => this.exerciseTimer > 0))
-      .subscribe(() => {
-        this.exerciseTimer--;
-        if (this.exerciseTimer === 0) {
-          this.moveToNextExerciseOrRest();
-        }
-      });
-  }
-
-  startGlobalTimer() {
-    interval(1000).subscribe(() => {
-      this.globalTimer++;
+  startExerciseTimer() {
+    this.exerciseTimer = this.workout.workoutTemplate.workTime;
+    if (this.progressBar[this.currentExerciseIndex].videoId) {
+      this.video = this.getVideoUrlById(this.progressBar[this.currentExerciseIndex].videoId)
+    }
+    this.exerciseTimerSubscription = interval(1000).subscribe(() => {
+      this.exerciseTimer--;
+      if (this.exerciseTimer <= 0 && this.exerciseTimerSubscription) {
+        this.exerciseTimerSubscription.unsubscribe();
+        this.currentExerciseIndex++;
+        this.moveToNextExerciseOrRest();
+      }
     });
   }
 
   moveToNextExerciseOrRest() {
-    if (this.timerSubscription) {
-      this.timerSubscription.unsubscribe();
-    }
-    const nextProgressItem =
-      this.workoutProgress[this.currentExerciseIndex + 1];
-
-    if (nextProgressItem) {
-      if (nextProgressItem.type === 'exercise') {
-        // Wait 3 seconds before starting the new exercise
-        setTimeout(() => {
-          this.currentExerciseIndex++;
-          this.startExerciseTimer(nextProgressItem.duration);
-        }, 3000);
-      } else if (
-        nextProgressItem.type === 'rest' ||
-        nextProgressItem.type === 'restBetweenRounds'
-      ) {
-        // Replace the GIF with a rest timer
+    if (this.currentExerciseIndex < this.progressBar.length) {
+      const currentItem = this.progressBar[this.currentExerciseIndex];
+      currentItem.isActive = true;
+      if (currentItem.videoId) {
+        this.getVideoUrlById(currentItem.videoId)
+      }
+      if (currentItem.isRest) {
         this.isResting = true;
-        this.currentExerciseIndex++;
-        this.startRestTimer(nextProgressItem.duration);
+        this.startRestTimer(currentItem.duration);
+      } else {
+        this.isResting = false;
+        this.startExerciseTimer();
       }
     } else {
-      // End of workout
+      // Si tous les exercices sont terminés
+      this.startRestBetweenRounds();
     }
   }
+  startGlobalTimer() {
+    interval(1000).subscribe(() => {
+      this.globalTimer--;
+    });
+  }
 
-  private startRestTimer(duration: number) {
-    this.restTime = duration;
-    // Logic to handle rest timer countdown
+  startRestTimer(duration: number) {
+    this.exerciseTimer = duration;
+    this.exerciseTimerSubscription = interval(1000).subscribe(() => {
+      this.exerciseTimer--;
+      if (this.exerciseTimer <= 0) {
+        this.exerciseTimerSubscription.unsubscribe();
+        this.currentExerciseIndex++;
+        this.moveToNextExerciseOrRest();
+      }
+    });
+  }
+
+  startRestBetweenRounds() {
+    // Commencer le repos entre les rounds
+    this.isResting = true;
+    this.currentRound++;
+    this.restTime = this.workout.workoutTemplate.restBetweenRounds;
+    this.restTimerSubscription = interval(1000).subscribe(() => {
+      this.restTime--;
+      if (this.restTime <= 0) {
+        this.restTimerSubscription.unsubscribe();
+        this.isResting = false;
+        // Réinitialiser l'index de l'exercice pour le nouveau round
+        this.currentExerciseIndex = 0;
+        this.buildCurrentRoundProgressBar();
+        this.startExerciseTimer();
+      }
+    });
   }
 
   get globalTimerInMinutes(): string {
     return Math.floor(this.globalTimer / 60) + ' min';
   }
 
+  public getVideoUrlById(id: number | undefined): string {
+    const exercise = this.exercises.find(e => e.id === id);
+    return exercise ? exercise.videoUrl : '';
+  }
+
   ngOnDestroy() {
-    if (this.timerSubscription) {
-      this.timerSubscription.unsubscribe();
+    if (this.exerciseTimerSubscription) {
+      this.exerciseTimerSubscription.unsubscribe();
+    }
+    if (this.restTimerSubscription) {
+      this.restTimerSubscription.unsubscribe();
     }
   }
 }
