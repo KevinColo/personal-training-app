@@ -3,15 +3,15 @@
     <div class="progress-container">
       <div class="timer timer-left">{{ globalTimerInMinutes }}</div>
       <div class="progress">
-        <div *ngFor="let item of progressBar"
+        <div *ngFor="let item of currentRoundProgressBar"
              [class.active]="item.isActive"
              [class.completed]="item.isCompleted"
-             [class.rest]="item.isRest"
-             [style.width]="100 / progressBar.length + '%'"
+             [class.rest]="item.type === 0"
+             [style.width]="100 / currentRoundProgressBar.length + '%'"
              class="progress-item">
         </div>
       </div>
-      <div class="timer timer-right">{{ exerciseTimer }}</div>
+      <div class="timer timer-right">{{ unifiedTimer }}</div>
     </div>
     <div class="gif-container">
       <img [src]="isResting ? 'assets/repos.gif' : 'assets/' + video" alt="Exercise GIF" />
@@ -22,10 +22,10 @@
     <div class="round-counter">Round {{ currentRound }}/{{ workout.workoutTemplate.numRounds }}</div>
   </div>
   <div class="exercise-info">
-    <h3>{{ exercises[currentExerciseIndex].name }}</h3>
-    <p>{{ exercises[currentExerciseIndex].description }}</p>
-    <p>{{ exercises[currentExerciseIndex].difficulty }}</p>
-    <p>{{ exercises[currentExerciseIndex].intensity }}</p>
+    <h3>{{ getExerciseById(currentExerciseId)?.name }}</h3>
+    <p>{{ getExerciseById(currentExerciseId)?.description }}</p>
+    <p>{{ getExerciseById(currentExerciseId)?.difficulty }}</p>
+    <p>{{ getExerciseById(currentExerciseId)?.intensity }}</p>
   </div>
 </ng-container>
 

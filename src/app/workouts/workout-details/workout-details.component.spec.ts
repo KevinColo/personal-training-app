@@ -74,7 +74,7 @@ describe('WorkoutDetailsComponent', () => {
         isRest: true,
         type: 'rest',
       };
-      expect(component.progressBar).toEqual([
+      expect(component.currentRoundprogressBar).toEqual([
         exercise,
         rest,
         exercise,
@@ -94,7 +94,7 @@ describe('WorkoutDetailsComponent', () => {
         .mockImplementation(() => of(twoExercises));
       fixture.detectChanges();
       component.buildCurrentRoundProgressBar();
-      expect(component.progressBar).toEqual([
+      expect(component.currentRoundprogressBar).toEqual([
         exercise,
         exercise,
         exercise,
