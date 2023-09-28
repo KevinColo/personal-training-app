@@ -72,11 +72,21 @@ img {
 
 .progress {
   flex: 1;
-  height: 10px;
-  background-color: #ddd;
+  height: 20px;
+  background-color: #fff;
   display: flex;
   overflow: hidden;
   margin: 0 1rem;
+  border: solid 1px #111111;
+  padding: 1px;
+}
+
+.progress-item:not(:last-child) {
+  margin-right: 20px;
+}
+
+.progress-item {
+  border: dotted 1px #7f7f7f;
 }
 
 .progress-item.exercise {
@@ -100,8 +110,8 @@ img {
   display: block;
 }
 .timer {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   display: flex;
   align-items: center;

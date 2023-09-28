@@ -1,6 +1,21 @@
-<p>workouts works!</p>
-
-<div class="exercise" *ngFor="let workout of workouts" cdkDrag>
-<h2>{{workout.name}}</h2>
-<p>{{workout.description}}</p>
+<div class="row mt-4">
+  <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let workout of workoutsWithExercises" cdkDrag>
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">{{workout.name}}</h5>
+        <p class="card-text">{{workout.workoutTemplate.description}}</p>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Durée : {{workout.duration / 60}} minutes</li>
+          <li class="list-group-item">Rounds : {{workout.workoutTemplate.numRounds}}</li>
+          <li class="list-group-item small">
+            Exercices :
+            <span *ngFor="let exercise of workout.exercises">{{exercise.name}} </span>
+          </li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <a [routerLink]="['/workouts', workout.id]" class="btn btn-primary">Voir les détails</a>
+      </div>
+    </div>
+  </div>
 </div>

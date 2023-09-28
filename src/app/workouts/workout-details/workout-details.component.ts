@@ -129,6 +129,7 @@ export class WorkoutDetailsComponent implements OnInit {
       this.unifiedTimerSubscription.unsubscribe();
     }
     this.video = this.getVideoUrlById(this.currentRoundProgressBar[this.currentExerciseIndex].type)
+    this.currentRoundProgressBar[this.currentExerciseIndex].isActive = true;
     this.unifiedTimerSubscription = interval(1000).subscribe(() => {
       if (this.unifiedTimer > 0) {
         this.unifiedTimer--;
