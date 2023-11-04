@@ -36,9 +36,8 @@ export class WorkoutDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private workoutsService: WorkoutsService,
-    private exercisesService: ExercisesService,
-  ) {
-  }
+    private exercisesService: ExercisesService
+  ) {}
 
   ngOnInit() {
     const id = this.route.snapshot.params['id'];
@@ -46,7 +45,7 @@ export class WorkoutDetailsComponent implements OnInit {
       this.workoutsService.getWorkout(id).subscribe((workout: Workout) => {
         this.exercisesService
           .getSomeExercises(workout.exercisesId)
-          .subscribe((exercises) => {
+          .subscribe(exercises => {
             this.workout = workout;
             this.globalTimer = workout.duration;
             this.unifiedTimer = workout.workoutTemplate.workTime;
@@ -102,14 +101,13 @@ export class WorkoutDetailsComponent implements OnInit {
   }
 
   public getVideoUrlById(id: number): string {
-    const exercise = this.exercises.find((e) => e.id === id);
+    const exercise = this.exercises.find(e => e.id === id);
     return exercise ? exercise.videoUrl : '';
   }
 
   getExerciseById(id: number) {
-    return this.exercises.find((exercise) => exercise.id === id);
+    return this.exercises.find(exercise => exercise.id === id);
   }
-
 
   startGlobalTimer(): void {
     if (this.globalTimerSubscription) {
@@ -123,12 +121,13 @@ export class WorkoutDetailsComponent implements OnInit {
     });
   }
 
-
   startTimer(): void {
     if (this.unifiedTimerSubscription) {
       this.unifiedTimerSubscription.unsubscribe();
     }
-    this.video = this.getVideoUrlById(this.currentRoundProgressBar[this.currentExerciseIndex].type)
+    this.video = this.getVideoUrlById(
+      this.currentRoundProgressBar[this.currentExerciseIndex].type
+    );
     this.currentRoundProgressBar[this.currentExerciseIndex].isActive = true;
     this.unifiedTimerSubscription = interval(1000).subscribe(() => {
       if (this.unifiedTimer > 0) {
@@ -137,18 +136,23 @@ export class WorkoutDetailsComponent implements OnInit {
 
       // Logique pour gérer le changement d'exercice ou de période de repos
       if (this.unifiedTimer <= 0) {
-        const progressBarItem = this.currentRoundProgressBar[this.currentExerciseIndex];
+        const progressBarItem =
+          this.currentRoundProgressBar[this.currentExerciseIndex];
         progressBarItem.isCompleted = true;
 
         // Passer à l'élément suivant de la barre de progression
         this.currentExerciseIndex++;
         if (this.currentExerciseIndex < this.currentRoundProgressBar.length) {
-          const nextProgressBarItem = this.currentRoundProgressBar[this.currentExerciseIndex];
+          const nextProgressBarItem =
+            this.currentRoundProgressBar[this.currentExerciseIndex];
           nextProgressBarItem.isActive = true;
           this.unifiedTimer = nextProgressBarItem.duration;
           // Mettre à jour la variable isResting en fonction de l'élément actif de la barre de progression
           this.isResting = nextProgressBarItem.type === 0;
-          this.video = nextProgressBarItem.type > 0 ? this.getVideoUrlById(nextProgressBarItem.type) : '';
+          this.video =
+            nextProgressBarItem.type > 0
+              ? this.getVideoUrlById(nextProgressBarItem.type)
+              : '';
         } else {
           // Tous les éléments de la barre de progression sont terminés
           if (this.currentRound < this.workout.workoutTemplate.numRounds) {

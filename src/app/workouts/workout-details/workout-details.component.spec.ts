@@ -1,4 +1,10 @@
-import {ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {
+  ComponentFixture,
+  discardPeriodicTasks,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { from, of } from 'rxjs';
 
@@ -58,7 +64,7 @@ describe('WorkoutDetailsComponent', () => {
   });
 
   describe('buildCurrentRoundProgressBar', () => {
-    it('should create progressbar for the workout with RestIme', (done) => {
+    it('should create progressbar for the workout with RestIme', done => {
       jest
         .spyOn(workoutService, 'getWorkout')
         .mockImplementation(() => of(exercisesWithRestTime));
@@ -85,7 +91,7 @@ describe('WorkoutDetailsComponent', () => {
       done();
     });
 
-    it('should create progressbar for the workout without RestIme', (done) => {
+    it('should create progressbar for the workout without RestIme', done => {
       jest
         .spyOn(workoutService, 'getWorkout')
         .mockImplementation(() => of(exercisesWithoutRestTime));
@@ -129,10 +135,10 @@ describe('WorkoutDetailsComponent', () => {
       expect(component.globalTimer).toBe(component.workout.duration - 1);
 
       // Vérifiez que le timer de l'exercice a bien décrémenté
-      expect(component.exerciseTimer).toBe(component.workout.workoutTemplate.workTime - 1);
+      expect(component.exerciseTimer).toBe(
+        component.workout.workoutTemplate.workTime - 1
+      );
       discardPeriodicTasks();
     }));
   });
-
-
 });

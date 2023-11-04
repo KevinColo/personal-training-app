@@ -19,16 +19,16 @@ export class WorkoutsComponent implements OnInit {
   workoutsWithExercises: WorkoutWithExercises[] = [];
   constructor(
     private workoutsService: WorkoutsService,
-    private exercisesService: ExercisesService,
+    private exercisesService: ExercisesService
   ) {}
 
   ngOnInit() {
-    this.workoutsService.getWorkouts().subscribe((workouts) => {
+    this.workoutsService.getWorkouts().subscribe(workouts => {
       this.workouts = workouts;
-      workouts.map((workout) => {
+      workouts.map(workout => {
         this.exercisesService
           .getSomeExercises(workout.exercisesId)
-          .subscribe((exercises) => {
+          .subscribe(exercises => {
             this.workoutsWithExercises.push({
               ...workout,
               exercises: exercises,

@@ -9,27 +9,45 @@ import { AuthComponent } from './auth/auth.component';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { WorkoutsComponent } from './workouts/workouts.component';
 import { ProgressComponent } from './progress/progress.component';
-import {
-  RouterLink,
-  RouterModule,
-  RouterOutlet,
-  Routes,
-} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { ExercisesService } from './exercises/exercises.service';
 import { SecondsToTimePipe } from './pipes/SecondsToTimePipe';
 import { WorkoutDetailsComponent } from './workouts/workout-details/workout-details.component';
 import { HomeComponent } from './home/home.component';
 import { WorkoutsService } from './workouts/workouts.service';
+import { BlogModule } from './blog/blog.module';
+import { SharedModule } from './shared/shared.module';
+import { SplitRightSidebarComponent } from './blog/split-right-sidebar/split-right-sidebar.component';
+import { LayoutsModule } from './gym/layouts.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DetailComponent } from './blog/blog-detail/detail.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'exercises/:id', component: ExercisesComponent },
-  { path: 'exercises', component: ExercisesComponent },
+  { path: '', component: SplitRightSidebarComponent },
+  {
+    path: 'exercises',
+    component: ExercisesComponent,
+    children: [
+      {
+        path: ':id',
+        component: ExercisesComponent,
+      },
+    ],
+  },
+  {
+    path: 'workouts',
+    component: WorkoutsComponent,
+    children: [
+      {
+        path: ':id',
+        component: WorkoutDetailsComponent,
+      },
+    ],
+  },
   { path: 'auth', component: AuthComponent },
   { path: 'workout-builder', component: WorkoutsComponent },
-  { path: 'workouts/:id', component: WorkoutDetailsComponent },
-  { path: 'workouts', component: WorkoutsComponent },
   { path: 'progress', component: ProgressComponent },
+  { path: 'blog', component: DetailComponent },
 ];
 
 @NgModule({
@@ -45,12 +63,14 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     DragDropModule,
     RouterModule.forRoot(routes),
-    RouterOutlet,
-    RouterLink,
     HttpClientModule,
     FormsModule,
+    BlogModule,
+    SharedModule,
+    LayoutsModule,
   ],
   providers: [ExercisesService, WorkoutsService],
   bootstrap: [AppComponent],

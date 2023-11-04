@@ -3,5 +3,5 @@ export enum MuscleGroupsEnum {
   'Bas du corps' = 'Bas du corps',
   'Fessier' = 'Fessier',
   'Abdominaux' = 'Abdominaux',
-  'Full body' = 'Full body'
+  'Full body' = 'Full body',
 }

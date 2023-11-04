@@ -21,7 +21,7 @@ export class ExercisesComponent implements OnInit {
   allExercises: Exercise[];
   exercises: Exercise[] = [];
   futureWorkout: Exercise[] = [];
-  duration: number = 480;
+  duration = 480;
   difficultyLevel = 1; // 1 = Easy, 2 = Medium, 3 = High
   difficulty = 'Easy';
   muscleGroupsEnum = MuscleGroupsEnum;
@@ -31,11 +31,11 @@ export class ExercisesComponent implements OnInit {
 
   constructor(
     private exercisesService: ExercisesService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.exercisesService.getExercises().subscribe((data) => {
+    this.exercisesService.getExercises().subscribe(data => {
       this.exercises = data;
       this.allExercises = data;
     });
@@ -46,27 +46,27 @@ export class ExercisesComponent implements OnInit {
 
     // Filtrer par nom si un filtre de nom est défini
     if (this.filter) {
-      filteredExercises = filteredExercises.filter((exercise) => {
+      filteredExercises = filteredExercises.filter(exercise => {
         return exercise.name.toLowerCase().includes(this.filter.toLowerCase());
       });
     }
 
     // Filtrer par groupe musculaire si un groupe musculaire est sélectionné
     const selectedGroups = Object.keys(this.selectedMuscleGroups).filter(
-      (key) => this.selectedMuscleGroups[key],
+      key => this.selectedMuscleGroups[key]
     );
     if (selectedGroups.length > 0) {
-      filteredExercises = filteredExercises.filter((exercise) => {
+      filteredExercises = filteredExercises.filter(exercise => {
         return selectedGroups.includes(exercise.muscleGroup);
       });
     }
 
     // Filtrer par difficulté si une difficulté est sélectionnée
     const selectedDifficulties = Object.keys(this.selectedDifficulty).filter(
-      (key) => this.selectedDifficulty[key],
+      key => this.selectedDifficulty[key]
     );
     if (selectedDifficulties.length > 0) {
-      filteredExercises = filteredExercises.filter((exercise) => {
+      filteredExercises = filteredExercises.filter(exercise => {
         return selectedDifficulties.includes(exercise.difficulty);
       });
     }
@@ -79,14 +79,14 @@ export class ExercisesComponent implements OnInit {
       moveItemInArray(
         event.container.data,
         event.previousIndex,
-        event.currentIndex,
+        event.currentIndex
       );
     } else {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex,
+        event.currentIndex
       );
     }
   }
@@ -123,7 +123,7 @@ export class ExercisesComponent implements OnInit {
     }
     this.exercisesService
       .createWorkout(this.futureWorkout, this.duration, difficulty)
-      .subscribe((response) => {
+      .subscribe(response => {
         console.log(response);
         this.router.navigate(['/workouts', response.id]);
       });

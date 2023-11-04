@@ -1,4 +1,4 @@
-import {Workout} from "../app/workouts/workout.model";
+import { Workout } from '../app/workouts/workout.model';
 
 export const exercisesWithRestTime = {
   id: 20,
@@ -53,4 +53,3 @@ export const exercisesWithoutRestTime: Workout = {
     restBetweenRounds: 30,
   },
 };
-

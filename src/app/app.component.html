@@ -1,28 +1,7 @@
-<header>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <a class="navbar-brand" routerLink="">Personal Training</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/auth">Authentification</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/exercises">Exercices</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/workouts">Programmes d'entraînement</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/progress">Progression</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-</header>
-
+<app-gym-nav></app-gym-nav>
+<app-gym-header></app-gym-header>
+<app-breadcrumb></app-breadcrumb>
 <main>
   <div class="container"><router-outlet></router-outlet></div>
 </main>
+<app-footer></app-footer>

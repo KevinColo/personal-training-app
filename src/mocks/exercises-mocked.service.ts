@@ -1,7 +1,7 @@
-import {of} from "rxjs";
+import { of } from 'rxjs';
 
 export class ExercisesMockedService {
-  public getSomeExercises (){
+  public getSomeExercises() {
     return of([]);
   }
 }

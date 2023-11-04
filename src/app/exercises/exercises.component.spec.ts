@@ -49,7 +49,8 @@ describe('ExercisesComponent', () => {
     const exercisesService = TestBed.inject(ExercisesService);
     const createWorkoutSpy = jest.spyOn(exercisesService, 'createWorkout');
 
-    const button = fixture.debugElement.nativeElement.querySelector('.btn-workout');
+    const button =
+      fixture.debugElement.nativeElement.querySelector('.btn-workout');
     button.click();
 
     expect(createWorkoutSpy).toHaveBeenCalledWith(component.futureWorkout);

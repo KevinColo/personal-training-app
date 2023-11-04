@@ -13,7 +13,7 @@ export class ExercisesService {
   public getExercises(
     muscleGroup?: string,
     intensity?: string,
-    difficulty?: string,
+    difficulty?: string
   ): Observable<Exercise[]> {
     const params: any = {};
     if (muscleGroup) params.muscleGroup = muscleGroup;
@@ -40,9 +40,9 @@ export class ExercisesService {
   createWorkout(
     futureWorkout: Exercise[],
     duration: number,
-    difficulty: string,
+    difficulty: string
   ): Observable<any> {
-    const selectedExercises = futureWorkout.map((exercise) => exercise.id);
+    const selectedExercises = futureWorkout.map(exercise => exercise.id);
     const workout = {
       exercisesId: selectedExercises,
       duration: duration,

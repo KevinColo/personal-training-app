@@ -20,6 +20,7 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "strictPropertyInitialization": false,
+    "noImplicitAny": false,
     "types": ["jest"],
     "lib": [
       "ES2022",
