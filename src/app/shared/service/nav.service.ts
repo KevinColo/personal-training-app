@@ -29,6 +29,11 @@ export class NavService {
       type: 'link'
     },
     {
+      path: '/blog',
+      title: 'Blog',
+      type: 'link'
+    },
+    {
       path: '/exercises',
       title: 'Exercices',
       type: 'link'

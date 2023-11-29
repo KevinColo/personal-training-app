@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LayoutsRoutingModule } from './layouts-routing.module';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMasonryModule } from 'ngx-masonry';
@@ -22,6 +21,7 @@ import { GymBrandComponent } from './gym-brand/gym-brand.component';
 import { GymFooterComponent } from './gym-footer/gym-footer.component';
 import { GymCopyrightComponent } from './gym-copyright/gym-copyright.component';
 import {SharedModule} from "../shared/shared.module";
+import {RouterLink} from "@angular/router";
 
 
 @NgModule({
@@ -44,7 +44,6 @@ import {SharedModule} from "../shared/shared.module";
 
   imports: [
     CommonModule,
-    LayoutsRoutingModule,
     CarouselModule,
     NgbModule,
     FormsModule,
@@ -52,7 +51,13 @@ import {SharedModule} from "../shared/shared.module";
     SharedModule,
     // Ng5SliderModule,
     NgxMasonryModule,
+    RouterLink,
   ],
-  exports: [GymNavComponent, GymHeaderComponent],
+  exports: [
+    GymNavComponent,
+    GymHeaderComponent,
+    GymFooterComponent,
+    GymCopyrightComponent,
+  ],
 })
 export class LayoutsModule {}

@@ -2,6 +2,27 @@
 <app-gym-header></app-gym-header>
 <app-breadcrumb></app-breadcrumb>
 <main>
-  <div class="container"><router-outlet></router-outlet></div>
+    <router-outlet></router-outlet>
+    <div class="theme-pannel-main">
+      <ul>
+        <li
+          class="sidebar-btn dark-light-btn"
+          (click)="
+            customizeLayoutVersion(
+              customize.data.settings.layout_version == 'dark'
+                ? 'light'
+                : 'dark'
+            )
+          ">
+          <a class="dark-light">
+            <span class="theme-layout-version">{{
+              customize.data.settings.layout_version == 'dark'
+                ? 'Light'
+                : 'Dark'
+            }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
 </main>
-<app-footer></app-footer>
+<app-gym-copyright></app-gym-copyright>

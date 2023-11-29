@@ -15159,3 +15159,81 @@ $ease--out-quad: cubic-bezier(.25,.46,.450,.94);
   }
 }
 
+
+.snow {
+  @extend %on-top;
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  animation: falling linear infinite both;
+  transform: translate3D(0,-100%,0);
+
+  &--near {
+    animation-duration: $s--near;
+    background-image: url('../../images/snow1.png');
+    background-size: contain;
+
+    & + .snow--alt {
+      animation-delay: ($s--near / 2);
+    }
+  }
+
+  &--mid {
+    animation-duration: $s--mid;
+    background-image: url('../../images/snow2.png');
+    background-size: contain;
+
+    & + .snow--alt {
+      animation-delay: ($s--mid / 2);
+    }
+  }
+
+  &--far {
+    animation-duration: $s--far;
+    background-image: url('../../images/snow3.png');
+    background-size: contain;
+
+    & + .snow--alt {
+      animation-delay: ($s--far / 2);
+    }
+  }
+}
+
+//dark light panel //
+.theme-pannel-main {
+  background-color: $white;
+  position: fixed;
+  top: 30%;
+  right: 0;
+  z-index: 9;
+  padding: 0 5px;
+  box-shadow: 0 0 7px 1px rgba(158, 158, 158, 0.2);
+  ul {
+    li {
+      span{
+        padding: 0;
+        text-transform: uppercase;
+        color: #949494;
+        font-weight: 700;
+      }
+      a{
+        padding: 0;
+      }
+      display: flex;
+      padding: 10px 12px;
+      border-bottom: 1px solid #dadada;
+      &:last-child{
+        border-bottom: 0;
+      }
+    }
+  }
+}
+
+@keyframes falling {
+  0% {
+    transform: translate3D(-7.5%,-100%, 0);
+  }
+
+  100% {
+    transform: translate3D(7.5%,100%, 0);
+  }
+}

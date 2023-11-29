@@ -7,7 +7,7 @@
                     <div class="col-12 blog-sec blog-list" *ngFor="let blog of blogData">
                         <div class="blog-agency">
                             <div class="row blog-contain pl-0 pr-0">
-                                <div class="col-xl-4 col-lg-5 col-md-6 p-0" [ngClass]="blog.Id%2==0?'order-md-2':''">
+                                <div class="col-xl-4 col-lg-5 col-md-6 p-0" [ngClass]="blog.id%2==0?'order-md-2':''">
                                     <div class=" text-center">
                                         <img [src]="blog.img" alt="" class="img-fluid blog-img">
                                     </div>
@@ -27,7 +27,7 @@
                                                 <h5 class="blog-head font-600">{{blog.title}}</h5>
                                                 <p class="para2">{{blog.content}}</p>
                                                 <div class="btn-bottom m-t-20">
-                                                    <a href="#" class="text-uppercase">{{blog.btn}}</a>
+                                                    <a routerLink='{{blog.id}}' class="text-uppercase">{{blog.btn}}</a>
                                                 </div>
                                             </div>
                                         </div>

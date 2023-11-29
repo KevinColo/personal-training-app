@@ -1,7 +1,7 @@
 export class blogBasicDB {
   static split = [
     {
-      Id: 1,
+      id: 1,
       img: 'assets/images/agency/blog/6.jpg',
       date: 'June 19, 2018',
       type: 'Phonics ,Newyork',
@@ -11,7 +11,7 @@ export class blogBasicDB {
       btn: 'read more',
     },
     {
-      Id: 2,
+      id: 2,
       img: 'assets/images/agency/blog/2.jpg',
       date: 'June 19, 2018',
       type: 'Phonics ,Newyork',
@@ -21,7 +21,7 @@ export class blogBasicDB {
       btn: 'read more',
     },
     {
-      Id: 3,
+      id: 3,
       img: 'assets/images/agency/blog/3.png',
       date: 'June 19, 2018',
       type: 'Phonics ,Newyork',
@@ -31,7 +31,7 @@ export class blogBasicDB {
       btn: 'read more',
     },
     {
-      Id: 4,
+      id: 4,
       img: 'assets/images/agency/blog/4.jpg',
       date: 'June 19, 2018',
       type: 'Phonics ,Newyork',

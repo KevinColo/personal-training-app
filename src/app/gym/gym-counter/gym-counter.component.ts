@@ -16,22 +16,22 @@ export class GymCounterComponent implements OnInit {
     {
       count:'1510',
       img:'assets/images/gym/counter/happy-icon.png',
-      type:'Satisfied Customers'
+      type:'Exercices différents'
     },
     {
       count:'1510',
       img:'assets/images/gym/counter/project-icon.png',
-      type:'Projects Completed'
+      type:"Possibilité d'entrainement"
     },
     {
       count:'1510',
       img:'assets/images/gym/counter/work-icon.png',
-      type:'Hours Worked'
+      type:'Entrainements disponibles'
     },
     {
       count:'1510',
       img:'assets/images/gym/counter/award-icon.png',
-      type:'Awwards Winning'
+      type:'Heures de travail'
     }]
 
 }

@@ -12,7 +12,7 @@ export class GymHeaderComponent implements OnInit {
   ngOnInit() {
   }
 
-  headercarousel = [
+  public headercarousel = [
     {
       tagLine1:"Coucou ",
       tagLine2:"body more strong",
@@ -25,7 +25,7 @@ export class GymHeaderComponent implements OnInit {
     },
   ]
 
-  headercarouselOptions= {
+  public headercarouselOptions= {
     items: 1,
     margin: 0,
     autoHeight: true,

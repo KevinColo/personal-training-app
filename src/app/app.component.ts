@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CustomizerService } from './shared/service/customizer.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'personal-training-app';
+  public layoutType = 'dark';
+
+  constructor(public customize: CustomizerService) {}
+  public customizeLayoutVersion(val) {
+    this.customize.setLayoutVersion(val);
+    this.layoutType = val;
+  }
 }

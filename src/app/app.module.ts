@@ -17,13 +17,12 @@ import { HomeComponent } from './home/home.component';
 import { WorkoutsService } from './workouts/workouts.service';
 import { BlogModule } from './blog/blog.module';
 import { SharedModule } from './shared/shared.module';
-import { SplitRightSidebarComponent } from './blog/split-right-sidebar/split-right-sidebar.component';
 import { LayoutsModule } from './gym/layouts.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DetailComponent } from './blog/blog-detail/detail.component';
+import { GymComponent } from './gym/gym.component';
 
 const routes: Routes = [
-  { path: '', component: SplitRightSidebarComponent },
+  { path: '', component: GymComponent },
   {
     path: 'exercises',
     component: ExercisesComponent,
@@ -46,8 +45,7 @@ const routes: Routes = [
   },
   { path: 'auth', component: AuthComponent },
   { path: 'workout-builder', component: WorkoutsComponent },
-  { path: 'progress', component: ProgressComponent },
-  { path: 'blog', component: DetailComponent },
+  { path: 'progress', component: ProgressComponent }
 ];
 
 @NgModule({
@@ -64,11 +62,11 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    BlogModule,
     DragDropModule,
     RouterModule.forRoot(routes),
     HttpClientModule,
     FormsModule,
-    BlogModule,
     SharedModule,
     LayoutsModule,
   ],

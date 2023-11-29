@@ -9,7 +9,7 @@ import { Menu, NavService } from '../../../service/nav.service';
 export class MenuComponent implements OnInit {
   public menuItems: Menu[];
   public openSide = false;
-  public activeItem = 'home';
+  public activeItem = ' home';
   public active = false;
   public activeChildItem = '';
   public overlay = false;
